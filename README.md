@@ -1,6 +1,7 @@
 # udacity_linux_web_server
 Project Five: Linux Web Server
 
+This is the repository for Project Five of the Udacity Fullstack Web Developer Nanodegree - Linux Web Server.
 
 ## Server Information
 + IP Address - 52.33.198.83
@@ -108,6 +109,7 @@ jeremy    ALL=(ALL:ALL) ALL
 
 #### Update config file
 + sudo nano /etc/apache2/sites-available/udacity_catalog.conf
+```
 <VirtualHost *:80>
 ServerName 52.33.198.83
 ServerAlias ec2-52-33-198-83.us-west-2.compute.amazonaws.com
@@ -126,6 +128,7 @@ ErrorLog ${APACHE_LOG_DIR}/error.log
 LogLevel warn
 CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
+```
 
 #### Enable the virtual host
 + sudo a2ensite udacity_catalog
@@ -133,18 +136,21 @@ CustomLog ${APACHE_LOG_DIR}/access.log combined
 #### Create wsgi file and configure
 + sudo touch /var/www/udacity_catalog/udacity_catalog.wsgi
 + sudo nano /var/www/udacity_catalog/udacity_catalog.wsgi
+```
 \#!/usr/bin/python
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/udacity_catalog/")
 from udacity_catalog import app as application
+```
 
 #### Restart apache
 + sudo service apache2 restart
 
 #### Update code for Postgresql
 + Create "settings.py" and populate with:
+```python
 DATABASE = {
 	'drivername': 'postgres',
 	'host': 'localhost',
@@ -153,26 +159,33 @@ DATABASE = {
 	'password': ******,
 	'database': 'catalog'
 }
+```
 
 #### Add the following line to all files that access the DB:
-from sqlalchemy.engine.url import URL
+`from sqlalchemy.engine.url import URL`
 
 #### Update create_engine call on all files that access the DB:
-engine = create_engine(URL(**settings.DATABASE))
+`engine = create_engine(URL(**settings.DATABASE))`
 
 #### Update the __main__ section as follow:
-	if __name__ == '__main__':
-		app.debug = False
-		app.run(host='0.0.0.0', port=8000)
-		
+```python
+if __name__ == '__main__':
+	app.debug = False
+	app.run(host='0.0.0.0', port=8000)
+```
+
 #### Move app.secret_key line to right after app definition:
-	app = Flask(__name__)
-	app.secret_key = ******
-	
+```python
+app = Flask(__name__)
+app.secret_key = ******
+```
+
 #### Update all file references to absolute paths (ie. client_secrets.json):
-	CLIENT_ID = json.loads(
-		open('/var/www/udacity_catalog/udacity_catalog/client_secrets.json', 'r').read())['web']['client_id']
-		
+```python
+CLIENT_ID = json.loads(
+	open('/var/www/udacity_catalog/udacity_catalog/client_secrets.json', 'r').read())['web']['client_id']
+```
+	
 #### Create the tables in the DB:
 + sudo python database_setup.py
 
@@ -191,21 +204,24 @@ from character varying(80) to character varying(200)
 ### Automatically update packages
 + sudo touch autoupdt
 + sudo nano autoupdt
+```
 \#!/bin/bash
 apt-get update
 apt-get upgrade -y
 apt-get autoclean
+```
 + sudo mv autoupdt /etc/cron.weekly
 + cd /etc/cron.weekly
 + sudo chmod 755 autoupdt
 + To test:
-run-parts --test /etc/cron.weekly
+`run-parts --test /etc/cron.weekly`
     
 ### Monitor repeat unsuccessful login attempts and ban
 + sudo apt-get install fail2ban
 + sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 + sudo nano /etc/fail2ban/jail.local
 + Update ssh config:
+```
 [ssh]
 enabled = true
 banaction = ufw-ssh
@@ -213,14 +229,17 @@ port = 2200
 filter = sshd
 logpath = /var/log/auth.log
 maxretry = 3
+```
 + sudo touch /etc/fail2ban/action.d/ufw-ssh.conf
 + sudo nano /etc/fail2ban/action.d/ufw-ssh.conf
+```
 [Definition]
 actionstart =
 actionstop =
 actioncheck =
 actionban = ufw insert 1 deny from <ip> to any app OpenSSH
 actionunban = ufw delete deny from <ip> to any app OpenSSH
+```
 + sudo service fail2ban stop
 + sudo service fail2ban start
      
@@ -228,8 +247,10 @@ actionunban = ufw delete deny from <ip> to any app OpenSSH
 + install Glances
 + Turn on at startup -
 + sudo nano /etc/default/glances
+```
 \# Change to 'true' to have glances running at startup
 RUN="true"
+```
 + sudo service glances start
 
 

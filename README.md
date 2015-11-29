@@ -49,7 +49,7 @@ This is the repository for Project Five of the Udacity Fullstack Web Developer N
 + adduser grader
 + adduser grader sudo
 
-### Permanent sudo settings for users:
+### Permanent sudo settings for users
 + sudo touch /etc/sudoers.d/jeremy
 + sudo cat /etc/sudoers.d/jeremy
 jeremy    ALL=(ALL:ALL) ALL
@@ -107,7 +107,7 @@ jeremy    ALL=(ALL:ALL) ALL
 			
 #### Rename "application.py" to "__init__.py"
 
-#### Update config file
+#### Update the application's config file
 + sudo nano /etc/apache2/sites-available/udacity_catalog.conf
 ```
 <VirtualHost *:80>
@@ -137,7 +137,7 @@ CustomLog ${APACHE_LOG_DIR}/access.log combined
 + sudo touch /var/www/udacity_catalog/udacity_catalog.wsgi
 + sudo nano /var/www/udacity_catalog/udacity_catalog.wsgi
 ```
-\#!/usr/bin/python
+#!/usr/bin/python
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
@@ -149,7 +149,7 @@ from udacity_catalog import app as application
 + sudo service apache2 restart
 
 #### Update code for Postgresql
-+ Create "settings.py" and populate with:
++ Create "settings.py" and populate:
 ```python
 DATABASE = {
 	'drivername': 'postgres',
@@ -190,10 +190,8 @@ CLIENT_ID = json.loads(
 + sudo python database_setup.py
 
 #### Update the following field types on catalog DB:
-+ item/description
-from character varying(80) to text
-+ user/picture
-from character varying(80) to character varying(200)
++ item/description - from character varying(80) to text
++ user/picture - from character varying(80) to character varying(200)
 
 #### Populate the tables with data:
 + sudo python load_data.py
@@ -202,10 +200,11 @@ from character varying(80) to character varying(200)
 + sudo chown -R www-data /var/www/udacity_catalog/udacity_catalog/static/img/
 
 ### Automatically update packages
+Create a batch file that updates and upgrades packages and add it to the cron weekly folder:
 + sudo touch autoupdt
 + sudo nano autoupdt
 ```
-\#!/bin/bash
+#!/bin/bash
 apt-get update
 apt-get upgrade -y
 apt-get autoclean
@@ -217,6 +216,7 @@ apt-get autoclean
 `run-parts --test /etc/cron.weekly`
     
 ### Monitor repeat unsuccessful login attempts and ban
+Install and configure fail2ban by creating a ufw-ssh.conf file
 + sudo apt-get install fail2ban
 + sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 + sudo nano /etc/fail2ban/jail.local
@@ -244,11 +244,12 @@ actionunban = ufw delete deny from <ip> to any app OpenSSH
 + sudo service fail2ban start
      
 ### Monitor web server with Glances
-+ install Glances
-+ Turn on at startup -
++ Install Glances
+
+#### Turn on at startup:
 + sudo nano /etc/default/glances
 ```
-\# Change to 'true' to have glances running at startup
+# Change to 'true' to have glances running at startup
 RUN="true"
 ```
 + sudo service glances start

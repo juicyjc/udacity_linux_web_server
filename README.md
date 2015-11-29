@@ -45,11 +45,11 @@ This is the repository for Project Five of the Udacity Fullstack Web Developer N
 
 ## Configuration
 
-### Create users and add to sudo
+### Create users and add to sudo (as root)
 + adduser grader
 + adduser grader sudo
 
-### Permanent sudo settings for users
+### Permanent sudo settings for users (as root)
 + sudo touch /etc/sudoers.d/jeremy
 + sudo cat /etc/sudoers.d/jeremy
 jeremy    ALL=(ALL:ALL) ALL
@@ -90,7 +90,7 @@ jeremy    ALL=(ALL:ALL) ALL
 + sudo -su postgres
 + psql
 
-####Create catalog DB
+#### Create catalog DB
 + CREATE DATABASE catalog
 + psql catalog
 
@@ -105,7 +105,7 @@ jeremy    ALL=(ALL:ALL) ALL
 + sudo virtualenv venv
 + source venv/bin/activate
 			
-#### Rename "application.py" to "__init__.py"
+#### Rename "application.py" to "\_\_init\_\_.py"
 
 #### Update the application's config file
 + sudo nano /etc/apache2/sites-available/udacity_catalog.conf
@@ -149,7 +149,7 @@ from udacity_catalog import app as application
 + sudo service apache2 restart
 
 #### Update code for Postgresql
-+ Create "settings.py" and populate:
++ Create "settings.py" and populate with DB info:
 ```python
 DATABASE = {
 	'drivername': 'postgres',
@@ -257,33 +257,33 @@ RUN="true"
 
 ## Resources
 
-+ How To Deploy a Flask Application on an Ubuntu VPS
-https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
+### How To Deploy a Flask Application on an Ubuntu VPS
++ https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
 
-+ Web Scraping (general SQLAlchemy help)
-http://newcoder.io/scrape/
-http://newcoder.io/begin/setup-your-machine/
+### Web Scraping (general SQLAlchemy help)
++ http://newcoder.io/scrape/
++ http://newcoder.io/begin/setup-your-machine/
 
-+ Creating Postgresql Users
-http://www.postgresql.org/docs/9.1/static/app-createuser.html
+### Creating Postgresql Users
++ http://www.postgresql.org/docs/9.1/static/app-createuser.html
 
-+ View tables in Postgresql
-http://stackoverflow.com/questions/109325/postgresql-describe-table
+### View tables in Postgresql
++ http://stackoverflow.com/questions/109325/postgresql-describe-table
 
-+ Increasing the size of character varying type in postgres without data loss
-http://stackoverflow.com/questions/5488428/increasing-the-size-of-character-varying-type-in-postgres-without-data-loss
+### Increasing the size of character varying type in postgres without data loss
++ http://stackoverflow.com/questions/5488428/increasing-the-size-of-character-varying-type-in-postgres-without-data-loss
 
-+ Update packages every week
-https://help.ubuntu.com/community/AutoWeeklyUpdateHowTo
+### Update packages every week
++ https://help.ubuntu.com/community/AutoWeeklyUpdateHowTo
 
-+ Configure firewall to monitor for repeat unsuccessful login attempts and ban attackers
-https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-14-04
-http://askubuntu.com/questions/54771/potential-ufw-and-fail2ban-conflicts
+### Configure firewall to monitor for repeat unsuccessful login attempts and ban attackers
++ https://www.digitalocean.com/community/tutorials/how-to-protect-ssh-with-fail2ban-on-ubuntu-14-04
++ http://askubuntu.com/questions/54771/potential-ufw-and-fail2ban-conflicts
 
-+ Glances
-https://pypi.python.org/pypi/Glances
-https://github.com/nicolargo/glances/blob/master/docs/glances-doc.rst
-http://www.cyberciti.biz/faq/linux-install-glances-monitoring-tool/
+### Glances
++ https://pypi.python.org/pypi/Glances
++ https://github.com/nicolargo/glances/blob/master/docs/glances-doc.rst
++ http://www.cyberciti.biz/faq/linux-install-glances-monitoring-tool/
 
-+ Update permissions on img folder
-http://stackoverflow.com/questions/9181254/enabling-write-permissions-ubuntu-server-in-var-www-image-directory
+### Update permissions on img folder
++ http://stackoverflow.com/questions/9181254/enabling-write-permissions-ubuntu-server-in-var-www-image-directory
